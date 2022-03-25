@@ -39,7 +39,8 @@ Mongoose is framework to connect & interact with the database
 
     // You can use regular Mongo DB functions like find on User.
 
-    ## Creating document using schema & adding / saving it to DB
+## Creating document using schema & adding / saving it to DB
+
         // To create a new document (user here)
         const user = new User({name: 'latesh', age: 20})
         user.save()
@@ -68,7 +69,8 @@ Mongoose is framework to connect & interact with the database
         user[0].name = 'abc'
         await user[0].save()
 
-    ## Schema data Types
+## Schema data Types
+
         // In value of key value pair in schema (these are type: inside schema validation)
         String, Number, Date
 
@@ -92,7 +94,8 @@ Mongoose is framework to connect & interact with the database
         // Can use this in address's nested object like BUT it'll also has _id property
         address: addressSchema
 
-    ## Schema validation
+## Schema validation
+
         Only validates for CREATING & SAVING an instance NOT for updating or replacing
         Always do findById or any find then call .save() so validation is there; can save in variable as well
         User.findById('aslkjda').save()
@@ -136,7 +139,8 @@ Mongoose is framework to connect & interact with the database
     Exactly same as Mongo DB commands (Make sure to await otherwise it'll skip the lookup)
     But some extra easy queries are there too
 
-    ## Mongo DB like queries eg
+## Mongo DB like queries eg
+
         const user = await User.findById('kjlaksdf')
         console.log(user)
 
@@ -150,7 +154,8 @@ Mongoose is framework to connect & interact with the database
     Only creating and saving does it
     So store findBy method in a variable and do .save() on the variable with await
 
-    ## Mongoose queries
+## Mongoose queries
+
         const user = await User.where("name").equals("Kyle")
 
         // queries can be:
@@ -163,7 +168,8 @@ Mongoose is framework to connect & interact with the database
         // get user where name is kyle, age is greater than 20, less than 40
         const user = await User.where("name").equals("Kyle").where("age").gt(20).lt(40)
 
-    ## Adding references in schema & populate it Eg: best friend's data using ID autopopulate
+## Adding references in schema & populate it Eg: best friend's data using ID autopopulate
+
         // In the schema template, add ref: modelName
         // find the user/s, set the id, use .populate('fieldName') to populate it
 
@@ -186,7 +192,9 @@ Mongoose is framework to connect & interact with the database
 # Schema Methods (functions) / Virtuals
 
     You CANNOT use arrow functions in mongoose
-    ## Add methods to schema (userSchema in User.js) individual instances
+
+## Add methods to schema (userSchema in User.js) individual instances
+
         Use "this" keyword to reference the actual individual instance
 
         userSchema.methods.sayHi() = function() {
@@ -198,7 +206,9 @@ Mongoose is framework to connect & interact with the database
     // Rather than addinng methods to individual instances like sayHi()
     // If you want to add method on the model itself (collection)
     // So you can make methods similar to User.find() but it takes name, etc
-    ## Method on model rather than instance (statics kw is imp to add it to model)
+
+## Method on model rather than instance (statics kw is imp to add it to model)
+
         userSchema.statics.findByName = function(name) {
             return this.find({name: new RegExp(name, 'i')})
         }
@@ -207,7 +217,8 @@ Mongoose is framework to connect & interact with the database
         // Using this method in main script.js
         User.findByName('punit') // will return all the documents with name as punit
 
-    ## Query method on model (useful for sorting, arranging, etc)
+## Query method on model (useful for sorting, arranging, etc)
+
         userSchema.query.byName = function(name) {
             return this.where({name: new RegExp(name, 'i')})
         }
@@ -218,7 +229,8 @@ Mongoose is framework to connect & interact with the database
         const user = await User.byName('punit') // will NOT work
         const user = await User.find().byName('punit') // will WORK
 
-    ## Virtual (not on database but only accessible in code)
+## Virtual (not on database but only accessible in code)
+
         // Virtual is NOT a property on the schema itself but based on other properties
         // Has .get & .set
         userSchema.virtual('namedEmail').get(function() {
